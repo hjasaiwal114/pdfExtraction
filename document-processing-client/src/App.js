@@ -22,10 +22,10 @@ function App() {
       formData.append('pdf', selectedFile);
 
       // Use relative path instead of absolute URL
-      await axios.post('/upload', formData);
+      const response = await axios.post('http://localhost:5000/upload', formData);
 
-      // Handle success (showing success message, etc.)
-      console.log('File uploaded successfully!');
+      // Log the response from the server
+      console.log(response.data);
     } catch (error) {
       // Handle errors (showing error message, logging, etc.)
       console.error('Error uploading file:', error);
