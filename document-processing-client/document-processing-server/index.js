@@ -6,14 +6,20 @@ const pdfparse = require('pdf-parse');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect('mongodb+srv://hjasaiwal114:12345@cluster0.qsgu4r2.mongodb.net/', { useNewUrlParser: true, useUnifiedtopology: true });
+mongoose.connect('mongodb+srv://hjasaiwal114:12345@cluster0.qsgu4r2.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('MongoDB connection established successfully');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
 
 // Set up multer for file upload
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Express routes for PDF upload and praising
-app.post('upload', upload.single('pdf'), async(req, res) => {
+app.post('/upload', upload.single('pdf'), async(req, res) => {
     try {
         const buffer = req.file.buffer;
         const data = await pdfparse(buffer);
@@ -39,7 +45,7 @@ app.post('upload', upload.single('pdf'), async(req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('Server is running on port ${port}');
+    console.log(`Server is running on port ${PORT}`);
 });
 
 // function to extract information
